@@ -10,8 +10,8 @@
 #define BUTTON_PIN (3)
 
 /* digitalWrite(LED_PIN, LOW); --> turns on the LED */
-//#define LED_PIN    (6) /* status led for nanode */
-#define LED_PIN    (4)
+#define LED_PIN    (6) /* status led for nanode */
+//#define LED_PIN    (4)
 
 #define BLINK_CLOCK (500) /* milliseconds */
 
