@@ -15,10 +15,10 @@
 
 #define DEBOUNCE_WAIT (200)
 
-#define DNS_TIMEOUT (45000)
+#define DNS_TIMEOUT (15000)
 #define DNS_TTL (3600000)
 #define CONNECT_TIMEOUT (15000)
-#define RECONNECT_INTERVAL (120000)
+#define RECONNECT_INTERVAL (30000)
 
 static const uint8_t mac[] = "TEXINC" ; /* first byte should be even */
 
@@ -122,11 +122,13 @@ void network()
 
 	if ( ( (network_state >= NETWORK_DHCP) && !EtherCard::dhcpPoll() ) ||
 	     ( (network_state == NETWORK_DHCP) && (cur-last_dns > DNS_TIMEOUT) ) ||
-	     ( (network_state > NETWORK_DHCP) && (cur-last_dns > DNS_TTL) ) )
+	     ( (network_state == NETWORK_CONNECTING) && (cur-last_update > CONNECT_TIMEOUT) ) )
+		network_state = NETWORK_NO_LINK;
+
+	if  ( (network_state > NETWORK_DHCP) && (cur-last_dns > DNS_TTL) )
 		network_state = NETWORK_LINK;
 
-	if ( ( (network_state == NETWORK_CONNECTING) && (cur-last_update > CONNECT_TIMEOUT) ) ||
-	     ( (network_state == NETWORK_OK) && (cur-last_update > RECONNECT_INTERVAL) ) )
+	if  ( (network_state == NETWORK_OK) && (cur-last_update > RECONNECT_INTERVAL) )
 		network_state = NETWORK_RECONNECT;
 
 	switch (network_state)
