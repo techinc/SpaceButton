@@ -1,0 +1,18 @@
+SpaceButton:
+
+Code for a Nanode based networked on/off status button.
+
+To compile, you need the techinc-fork of the EtherCard library
+which can be found at:
+
+https://github.com/techinc/ethercard
+
+(The fork adds a polling interface for DHCP and DNS.)
+
+The status LED should be connected to LED_PIN such that
+a LOW output state will make it light up.
+
+The button should be connected such that it pulls down BUTTON_PIN.
+The code assumes a circuit breaking button, change BUTTON_PRESS
+to LOW for a circuit making button.
+
